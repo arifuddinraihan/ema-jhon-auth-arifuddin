@@ -1,13 +1,18 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/UserContext';
 import './Login.css'
 
 const Login = () => {
     // Auth-context user-login received here
     const { userSignIn } = useContext(AuthContext)
+
     // Navigate the user to shop page using navigate
     const navigate = useNavigate();
+    
+    // grabbing the location and replacing with required path
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/'
 
     const handleSubmit = event => {
         // stop reloading
@@ -23,7 +28,8 @@ const Login = () => {
             const user = result.user
             console.log(user)
             form.reset()
-            navigate('/')
+            // sending location to from state and used replaced property
+            navigate(from, {replace : true})
         })
         .catch(error => console.error(error))
     }
