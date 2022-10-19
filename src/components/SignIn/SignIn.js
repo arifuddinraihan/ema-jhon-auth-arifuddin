@@ -8,9 +8,9 @@ const SignIn = () => {
     const [error, setError] = useState(null);
 
     const handleSubmit = (event) => {
-        // preventing reloading
+        // prevent reloading
         event.preventDefault();
-        // getting value from form
+        // getting value from form-model
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
