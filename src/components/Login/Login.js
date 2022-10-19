@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/UserContext';
 import './Login.css'
 
 const Login = () => {
     // Auth-context user-login received here
     const { userSignIn } = useContext(AuthContext)
+    // Navigate the user to shop page using navigate
+    const navigate = useNavigate();
 
     const handleSubmit = event => {
         // stop reloading
@@ -20,6 +22,8 @@ const Login = () => {
         .then(result => {
             const user = result.user
             console.log(user)
+            form.reset()
+            navigate('/')
         })
         .catch(error => console.error(error))
     }
