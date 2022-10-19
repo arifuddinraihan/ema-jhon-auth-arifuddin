@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/UserContext';
 import './SignIn.css'
 
 const SignIn = () => {
 
     // error state for showing requirements miss match
     const [error, setError] = useState(null);
+
+    // Auth-context create-user received here
+    const { createUser } = useContext(AuthContext)
 
     const handleSubmit = (event) => {
         // prevent reloading
@@ -14,14 +18,23 @@ const SignIn = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        const confirm =  form.password.value;
+        const confirm = form.password.value;
         // condition for password matching and showing error
-        if ( password.length < 6){
+        if (password.length < 6) {
             setError("Your password is less than 6 character")
         }
-        if ( password !== confirm){
+        if (password !== confirm) {
             setError("Your password did not match")
         }
+
+        // creating user by auth-context and using function as needed
+        createUser(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                form.reset();
+            })
+            .catch(error => console.error(error))
     }
 
     return (
